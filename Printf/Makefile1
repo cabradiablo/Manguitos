@@ -1,0 +1,55 @@
+
+BODY = main.c							\
+
+BODY_BONUS = main_bonus.c				\
+
+PUT =	putnbr_base_fd.c				\
+		putptr_fd.c						\
+		putstr_fd						\
+
+UTIL =	ft_error.c						\
+
+
+	
+
+
+BODY_OBJS := $(patsubst body/%.c, body/%.o,$(BODY))
+BODY_OBJS_BONUS := $(patsubst body/%.c, body/%.o,$(BODY))
+PUT_OBJS := $(patsubst put/%.c,$(BUILD_DIR)/%.o,$(PUT))
+UTILS_OBJS := $(patsubst utils/%.c,$(BUILD_DIR)/%.o,$(UTILS))
+
+OBJ = $(BODY_OBJS) $(UTILS_OBJS) $(PUT_OBJS)
+OBJ_BONUS = $(BODY_OBJS_BONUS) $(UTILS_OBJS_BONUS) $(PUT_OBJS_BONUS)
+
+#COMPILER
+CC = gcc
+CFLAGS = -Werror -Wextra -Wall
+CFLAGS += -g3 -fsanitize=address
+
+#NAME
+NAME = libftprintf.a
+NAME_BONUS = libftprintf_bonus.a
+
+all: $(NAME)
+
+$(NAME) :$(OBJ)
+	make -sC $(INC_DIR)
+	$(AR) -crs $(OBJ) $(CFLAGS) -o $(NAME)
+
+%.o: %.c
+	$(CC) -c $< -o $@ $(CFLAGS)
+
+bonus: $(NAME_BONUS)
+
+$(NAME_BONUS) :$(OBJ_BONUS)
+	make -sC $(INC_DIR)
+	$(CC) $(OBJ) $(OBJ_BONUS) $(CFLAGS) -o $(NAME_BONUS)
+
+
+clean:
+	@$(RM)  -f $(OBJ) $(OBJ_BONUS)|| true
+
+fclean: clean
+	$(RM) $(NAME) $(NAME_BONUS) || true
+
+re: fclean all
