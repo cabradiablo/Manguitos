@@ -25,6 +25,7 @@ char    *strjoin(char *head, char *tail)
         result[i] = head[i];
     return (result);
 }
+
 void    open_map(char *av, int *fd)
 {
     char    *file;

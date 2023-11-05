@@ -31,7 +31,7 @@ int dispenser(char **line, char **Buffer, int  len, int size)
     while (count <= size + len)
         dup_line[count] = *Buffer[count - len - 1];
     *Buffer = dup_Buffer;
-    return (free(*line), *line = dup_line, 0);
+    return (free(*line), free(dup_line), *line = dup_line, 0);
 }
 
 char    *get_next_line(int fd)
